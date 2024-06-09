@@ -1,23 +1,16 @@
+import { Link } from "@inertiajs/react";
 import {
     flexRender,
     getCoreRowModel,
-    getPaginationRowModel,
     useReactTable,
 } from "@tanstack/react-table";
 
-export function DataTable({ columns, data, pagination, setPagination }) {
+export function DataTable({ columns, data }) {
     // Init table
     const table = useReactTable({
         data: data.data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        manualPagination: true,
-        rowCount: data.total,
-        getPaginationRowModel: getPaginationRowModel(),
-        onPaginationChange: setPagination,
-        state: {
-            pagination,
-        },
     });
 
     return (
@@ -77,6 +70,27 @@ export function DataTable({ columns, data, pagination, setPagination }) {
                     )}
                 </tbody>
             </table>
+            <div className="border-t border-gray-700 py-4 flex justify-center text-gray-400">
+                {data.links.map((link) =>
+                    link.url ? (
+                        <Link
+                            className={`p-1 mx-1 hover:text-gray-300 ${
+                                link.active ? "text-blue-500" : ""
+                            }`}
+                            key={link.label}
+                            preserveScroll
+                            href={link.url}
+                            dangerouslySetInnerHTML={{ __html: link.label }}
+                        />
+                    ) : (
+                        <span
+                            className="p-1 mx-1 text-gray-500"
+                            key={link.label}
+                            dangerouslySetInnerHTML={{ __html: link.label }}
+                        />
+                    )
+                )}
+            </div>
         </div>
     );
 }

@@ -5,16 +5,20 @@ namespace App\Http\Controllers;
 use App\Models\Patient;
 use App\Http\Requests\StorePatientRequest;
 use App\Http\Requests\UpdatePatientRequest;
+use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $patients = Patient::latest()->paginate();
-        return inertia('Patients/Patients', ['patients' => $patients]);
+        $patients = Patient::query()->when($request->input('search'), function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })->paginate()->withQueryString();
+
+        return inertia('Patients/Index', ['patients' => $patients, 'filters' => $request->only('search')]);
     }
 
     /**
