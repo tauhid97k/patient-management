@@ -21,8 +21,8 @@ class PatientFactory extends Factory
             'name' => fake()->name($gender),
             'gender' => $gender,
             'age' => rand(15, 70),
-            'blood_group' => fake()->randomElement(['A_Positive', 'A_Negative', 'B_Positive', 'B_Negative', 'AB_Positive', 'AB_Negative', 'O_Positive', 'O_Negative']),
-            'marital_status' => fake()->randomElement(['Married', 'Unmarried']),
+            'blood_group' => fake()->randomElement(['a_positive', 'a_negative', 'b_positive', 'b_negative', 'ab_positive', 'ab_negative', 'o_positive', 'o_negative']),
+            'marital_status' => fake()->randomElement(['married', 'unmarried']),
             'phone' => fake()->phoneNumber(),
             'address' => fake()->address()
         ];

@@ -62,7 +62,7 @@ export function DataTable({ columns, data }) {
                         <tr>
                             <td
                                 colSpan={columns.length}
-                                className="h-28 text-center text-lg text-gray-500"
+                                className="h-28 text-center text-lg text-gray-400"
                             >
                                 No data found
                             </td>

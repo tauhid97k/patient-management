@@ -16,7 +16,7 @@ class PatientController extends Controller
     {
         $patients = Patient::query()->when($request->input('search'), function ($query, $search) {
             $query->where('name', 'like', "%{$search}%");
-        })->paginate()->withQueryString();
+        })->orderBy('created_at', 'DESC')->paginate()->withQueryString();
 
         return inertia('Patients/Index', ['patients' => $patients, 'filters' => $request->only('search')]);
     }
@@ -34,7 +34,8 @@ class PatientController extends Controller
      */
     public function store(StorePatientRequest $request)
     {
-        //
+        Patient::create($request->validated());
+        return redirect(route('patients.index'));
     }
 
     /**

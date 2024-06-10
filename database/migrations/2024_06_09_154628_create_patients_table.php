@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('age');
+            $table->integer('age')->unsigned();
             $table->string('gender');
             $table->string('blood_group');
             $table->string('marital_status');

@@ -5,8 +5,9 @@ import { columns } from "./columns";
 import { useState } from "react";
 
 const PatientsPage = ({ auth, patients, filters }) => {
-    const [search, setSearch] = useState(filters.search);
+    const [search] = useState(filters.search);
 
+    // Search API (No debounce added for now)
     const handleSearch = (e) => {
         router.visit("/patients", {
             method: "get",
