@@ -24,7 +24,7 @@ class StorePatientRequest extends FormRequest
         return [
             'name' => 'required|string',
             'gender' => 'required|string|in:male,female,other',
-            'age' => 'required|integer',
+            'age' => 'required|numeric|gt:0',
             'blood_group' => 'required|string|in:a_positive,a_negative,b_positive,b_negative,ab_positive,ab_negative,o_positive,o_negative',
             'marital_status' => 'required|string|in:married,unmarried',
             'phone' => 'required|string',

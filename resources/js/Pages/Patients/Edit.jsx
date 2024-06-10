@@ -2,29 +2,29 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { LoaderCircle } from "lucide-react";
 
-const PatientCreatePage = ({ auth }) => {
-    const { setData, processing, errors, post } = useForm({
-        name: "",
-        age: "",
-        gender: "",
-        blood_group: "",
-        marital_status: "",
-        phone: "",
-        address: "",
-        note: "",
+const PatientEditPage = ({ auth, patient }) => {
+    const { setData, processing, errors, put } = useForm({
+        name: patient.name,
+        age: patient.age,
+        gender: patient.gender,
+        blood_group: patient.blood_group,
+        marital_status: patient.marital_status,
+        phone: patient.phone,
+        address: patient.address,
+        note: patient.note,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route("patients.store"));
+        put(route("patients.update", { patient: patient.id }));
     };
 
     return (
         <AuthenticatedLayout user={auth.user}>
-            <Head title="Add Patient" />
+            <Head title="Edit Patient" />
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-medium text-gray-300">
-                    Add Patient
+                    Edit Patient
                 </h2>
                 <Link href={route("patients.index")} className="btn-muted">
                     Go Back
@@ -45,6 +45,7 @@ const PatientCreatePage = ({ auth }) => {
                             type="text"
                             id="name"
                             name="name"
+                            defaultValue={patient.name}
                             placeholder="Patient name"
                             className="input"
                         />
@@ -61,6 +62,7 @@ const PatientCreatePage = ({ auth }) => {
                             type="number"
                             id="age"
                             name="age"
+                            defaultValue={patient.age}
                             placeholder="Age"
                             className="input"
                         />
@@ -76,6 +78,7 @@ const PatientCreatePage = ({ auth }) => {
                             onChange={(e) => setData("gender", e.target.value)}
                             id="gender"
                             name="gender"
+                            defaultValue={patient.gender}
                             className="input"
                         >
                             <option value="male">Male</option>
@@ -99,6 +102,7 @@ const PatientCreatePage = ({ auth }) => {
                             }
                             id="blood_group"
                             name="blood_group"
+                            defaultValue={patient.blood_group}
                             className="input"
                         >
                             <option value="a_positive">A Positive</option>
@@ -129,6 +133,7 @@ const PatientCreatePage = ({ auth }) => {
                             }
                             id="marital_status"
                             name="marital_status"
+                            defaultValue={patient.marital_status}
                             className="input"
                         >
                             <option value="married">Married</option>
@@ -149,6 +154,7 @@ const PatientCreatePage = ({ auth }) => {
                             type="text"
                             id="phone"
                             name="phone"
+                            defaultValue={patient.phone}
                             placeholder="Phone number"
                             className="input"
                         />
@@ -164,6 +170,7 @@ const PatientCreatePage = ({ auth }) => {
                             onChange={(e) => setData("address", e.target.value)}
                             id="address"
                             name="address"
+                            defaultValue={patient.address}
                             placeholder="Address"
                             className="input"
                             rows={2}
@@ -188,6 +195,7 @@ const PatientCreatePage = ({ auth }) => {
                             onChange={(e) => setData("note", e.target.value)}
                             id="note"
                             name="note"
+                            defaultValue={patient.note}
                             placeholder="Note"
                             className="input"
                             rows={3}
@@ -197,10 +205,10 @@ const PatientCreatePage = ({ auth }) => {
                         {processing ? (
                             <span className="flex items-center gap-2">
                                 <LoaderCircle className="size-5 animate-spin text-white" />
-                                Adding Patient
+                                Updating Patient
                             </span>
                         ) : (
-                            "Add Patient"
+                            "Update Patient"
                         )}
                     </button>
                 </fieldset>
@@ -209,4 +217,4 @@ const PatientCreatePage = ({ auth }) => {
     );
 };
 
-export default PatientCreatePage;
+export default PatientEditPage;

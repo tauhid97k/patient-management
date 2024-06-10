@@ -35,6 +35,7 @@ class PatientController extends Controller
     public function store(StorePatientRequest $request)
     {
         Patient::create($request->validated());
+
         return redirect(route('patients.index'));
     }
 
@@ -51,7 +52,8 @@ class PatientController extends Controller
      */
     public function edit(Patient $patient)
     {
-        //
+        $patient = Patient::findOrFail($patient->id);
+        return inertia('Patients/Edit', ['patient' => $patient]);
     }
 
     /**
@@ -59,7 +61,10 @@ class PatientController extends Controller
      */
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
-        //
+        $patient = Patient::findOrFail($patient->id);
+        $patient->update($request->validated());
+
+        return redirect(route('patients.index'));
     }
 
     /**
