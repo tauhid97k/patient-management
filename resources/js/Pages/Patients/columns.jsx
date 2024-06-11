@@ -54,6 +54,12 @@ export const columns = [
 
             return (
                 <div className="flex gap-4 items-center">
+                    <Link
+                        href={route("patients.show", { id })}
+                        className="text-green-500"
+                    >
+                        View
+                    </Link>
                     {can?.edit && (
                         <Link
                             href={route("patients.edit", { id })}
