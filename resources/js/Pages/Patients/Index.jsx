@@ -1,11 +1,19 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { DataTable } from "@/Components/Table";
-import { Head, Link, router } from "@inertiajs/react";
+import { Head, Link, router, usePage } from "@inertiajs/react";
 import { columns } from "./columns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 const PatientsPage = ({ auth, patients, filters }) => {
     const [search] = useState(filters.search);
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.message) {
+            toast.success(flash.message);
+        }
+    }, [flash.message]);
 
     // Search API (No debounce added for now)
     const handleSearch = (e) => {

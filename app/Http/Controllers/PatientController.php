@@ -36,7 +36,7 @@ class PatientController extends Controller
     {
         Patient::create($request->validated());
 
-        return redirect(route('patients.index'));
+        return redirect(route('patients.index'))->with('message', 'Patient added');
     }
 
     /**
@@ -64,7 +64,7 @@ class PatientController extends Controller
         $patient = Patient::findOrFail($patient->id);
         $patient->update($request->validated());
 
-        return redirect(route('patients.index'));
+        return redirect(route('patients.index'))->with('message', 'Patient updated');
     }
 
     /**
@@ -74,6 +74,6 @@ class PatientController extends Controller
     {
         $patient->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with('message', 'Patient deleted');
     }
 }

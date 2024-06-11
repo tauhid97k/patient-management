@@ -4,6 +4,7 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
+import { Toaster } from "sonner";
 
 export default function Authenticated({ user, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -168,6 +169,13 @@ export default function Authenticated({ user, children }) {
 
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
                 {children}
+                <Toaster
+                    position="top-center"
+                    toastOptions={{
+                        duration: 2500,
+                        className: "bg-gray-900 border-gray-700 text-gray-200",
+                    }}
+                />
             </main>
         </div>
     );
