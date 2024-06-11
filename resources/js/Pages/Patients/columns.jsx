@@ -3,6 +3,7 @@ import Modal from "@/Components/Modal";
 import SecondaryButton from "@/Components/SecondaryButton";
 import { Link, useForm } from "@inertiajs/react";
 import { useState } from "react";
+import { usePage } from "@inertiajs/react";
 
 export const columns = [
     {
@@ -33,6 +34,7 @@ export const columns = [
         header: "Action",
         cell: ({ row }) => {
             const { id } = row.original;
+            const { can } = usePage().props;
 
             const [confirmPatientDelete, setConfirmPatientDelete] =
                 useState(false);
@@ -52,18 +54,22 @@ export const columns = [
 
             return (
                 <div className="flex gap-4 items-center">
-                    <Link
-                        href={route("patients.edit", { id })}
-                        className="text-blue-500"
-                    >
-                        Edit
-                    </Link>
-                    <button
-                        onClick={() => setConfirmPatientDelete(true)}
-                        className="text-red-500"
-                    >
-                        Delete
-                    </button>
+                    {can?.edit && (
+                        <Link
+                            href={route("patients.edit", { id })}
+                            className="text-blue-500"
+                        >
+                            Edit
+                        </Link>
+                    )}
+                    {can?.delete && (
+                        <button
+                            onClick={() => setConfirmPatientDelete(true)}
+                            className="text-red-500"
+                        >
+                            Delete
+                        </button>
+                    )}
                     <Modal show={confirmPatientDelete} onClose={closeModal}>
                         <section className="space-y-6 p-6">
                             <header>

@@ -18,7 +18,10 @@ class PatientController extends Controller
             $query->where('name', 'like', "%{$search}%");
         })->orderBy('created_at', 'DESC')->paginate()->withQueryString();
 
-        return inertia('Patients/Index', ['patients' => $patients, 'filters' => $request->only('search')]);
+        return inertia('Patients/Index', ['patients' => $patients, 'filters' => $request->only('search'), 'can' => [
+            'edit' => $request->user()->can('update', Patient::class),
+            'delete' => $request->user()->can('delete', Patient::class)
+        ]]);
     }
 
     /**
@@ -50,8 +53,12 @@ class PatientController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Patient $patient)
+    public function edit(Request $request, Patient $patient)
     {
+        if ($request->user()->cannot('update', Patient::class)) {
+            abort(403);
+        }
+
         $patient = Patient::findOrFail($patient->id);
         return inertia('Patients/Edit', ['patient' => $patient]);
     }
@@ -61,6 +68,10 @@ class PatientController extends Controller
      */
     public function update(UpdatePatientRequest $request, Patient $patient)
     {
+        if ($request->user()->cannot('update', Patient::class)) {
+            abort(403);
+        }
+
         $patient = Patient::findOrFail($patient->id);
         $patient->update($request->validated());
 
@@ -70,8 +81,12 @@ class PatientController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Patient $patient)
+    public function destroy(Request $request, Patient $patient)
     {
+        if ($request->user()->cannot('delete', Patient::class)) {
+            abort(403);
+        }
+
         $patient->delete();
 
         return redirect()->back()->with('message', 'Patient deleted');

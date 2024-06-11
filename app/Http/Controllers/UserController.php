@@ -13,6 +13,9 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->user()->cannot('view', User::class)) {
+            abort(403);
+        }
 
         $users = User::query()->when($request->input('search'), function ($query, $search) {
             $query->where('name', 'like', "%{$search}%");
